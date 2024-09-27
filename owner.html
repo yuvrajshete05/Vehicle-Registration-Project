@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owner Information</title>
+    <link rel="stylesheet" href="owner.css">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Owner Information</h2>
+
+<table id="ownerTable">
+  <thead>
+    <tr>
+      <th>Owner ID</th>
+      <th>Owner Name</th>
+      <th>Contact Number</th>
+      <th>License Number</th>
+      <th>Address</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Data will be dynamically added here -->
+  </tbody>
+</table>
+<br>
+<br>
+<div class="button-container">
+  <button onclick="insertRow()">Insert</button>
+  <button onclick="saveChanges()">Save</button>
+  <button onclick="deleteRow()">Delete</button>
+</div>
+
+<script>
+  function fetchData() {
+    // Simulate fetching data from the database
+    // Replace this with actual code to fetch data from your server
+    var ownerData = [
+      ['Rajesh Sharma', '+91 9876543210', 'MH-04-2019001', 1001, '123, ABC Street, Mumbai'],
+      ['Priya Patel', '+91 8765432109', 'MH-12-3456789', 1002, '456, XYZ Road, Pune'],
+      ['Anil Deshmukh', '+91 7654321098', 'MH-20-9876543', 1003, '789, PQR Nagar, Nagpur'],
+      ['Sneha Singh', '+91 6543210987', 'MH-06-543210', 1004, '321, LMN Lane, Nashik']
+    ];
+
+    var tableBody = document.getElementById("ownerTable").getElementsByTagName('tbody')[0];
+
+    ownerData.forEach(function(rowData) {
+      var row = tableBody.insertRow();
+      rowData.forEach(function(cellData) {
+        var cell = row.insertCell();
+        cell.textContent = cellData;
+      });
+    });
+  }
+
+  fetchData(); // Call the function to fetch data when the page loads
+
+  function insertRow() {
+    var table = document.getElementById("ownerTable").getElementsByTagName('tbody')[0];
+    var newRow = table.insertRow();
+    for (var i = 0; i < 5; i++) {
+      var newCell = newRow.insertCell(i);
+      var input = document.createElement("input");
+      input.type = "text";
+      input.placeholder = "Enter value";
+      newCell.appendChild(input);
+    }
+  }
+
+  function deleteRow() {
+    var table = document.getElementById("ownerTable").getElementsByTagName('tbody')[0];
+    var rowCount = table.rows.length;
+    if (rowCount > 1) {
+      table.deleteRow(rowCount - 1);
+    }
+  }
+
+  function saveChanges() {
+    var table = document.getElementById("ownerTable").getElementsByTagName('tbody')[0];
+    var lastRowCells = table.rows[table.rows.length - 1].cells;
+    for (var i = 0; i < lastRowCells.length; i++) {
+      var input = lastRowCells[i].querySelector("input");
+      if (input) {
+        lastRowCells[i].textContent = input.value;
+      }
+    }
+  }
+</script>
+
+</body>
+</html>

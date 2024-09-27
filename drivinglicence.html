@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driving License Information</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Driving License</h2>
+
+<table id="licenseTable">
+  <thead>
+    <tr>
+      <th>Holder Name</th>
+      <th>License Name</th>
+      <th>License Type</th>
+      <th>Date of Birth</th>
+      <th>Expiry Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Rahul Sharma</td>
+      <td>MH1234567890123</td>
+      <td>Motorbike</td>
+      <td>1990-05-15</td>
+      <td>2025-05-15</td>
+    </tr>
+    <tr>
+      <td>Priya Patel</td>
+      <td>MH9876543210987</td>
+      <td>Car</td>
+      <td>1985-08-20</td>
+      <td>2024-08-20</td>
+    </tr>
+    <tr>
+      <td>Anil Deshmukh</td>
+      <td>MH5678901234567</td>
+      <td>Truck</td>
+      <td>1978-11-10</td>
+      <td>2023-11-10</td>
+    </tr>
+    <tr>
+      <td>Sneha Singh</td>
+      <td>MH3456789012345</td>
+      <td>Scooter</td>
+      <td>1995-03-25</td>
+      <td>2026-03-25</td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<br>
+<div class="button-container">
+  <button onclick="addLicense()">Insert</button>
+  <button onclick="saveData()">Save</button>
+  <button onclick="deleteLastRow()">Delete</button>
+</div>
+
+<script>
+  let licenseData = [
+    ['Rahul Sharma', 'MH1234567890123', 'Motorbike', '1990-05-15', '2025-05-15'],
+    ['Priya Patel', 'MH9876543210987', 'Car', '1985-08-20', '2024-08-20'],
+    ['Anil Deshmukh', 'MH5678901234567', 'Truck', '1978-11-10', '2023-11-10'],
+    ['Sneha Singh', 'MH3456789012345', 'Scooter', '1995-03-25', '2026-03-25']
+  ];
+
+  function addLicense() {
+    var table = document.getElementById("licenseTable");
+    var newRow = table.insertRow(-1);
+    for (var i = 0; i < 5; i++) {
+      var newCell = newRow.insertCell(i);
+      var input = document.createElement("input");
+      input.type = "text";
+      input.placeholder = "Enter value";
+      newCell.appendChild(input);
+    }
+  }
+
+  function deleteLastRow() {
+    var table = document.getElementById("licenseTable");
+    var rowCount = table.rows.length;
+    if (rowCount > 1) {
+      table.deleteRow(rowCount - 1);
+    }
+  }
+
+  function saveData() {
+    var table = document.getElementById("licenseTable");
+    var rowCount = table.rows.length;
+    var newRow = [];
+    var lastRowCells = table.rows[rowCount - 1].cells;
+    for (var i = 0; i < lastRowCells.length; i++) {
+      newRow.push(lastRowCells[i].querySelector("input").value);
+    }
+    licenseData.push(newRow);
+    renderTable();
+  }
+
+  function renderTable() {
+    var table = document.getElementById("licenseTable");
+    table.innerHTML = "";
+    var thead = table.createTHead();
+    var row = thead.insertRow();
+    for (var i = 0; i < 5; i++) {
+      var th = document.createElement("th");
+      th.textContent = i == 0 ? "Holder Name" : "New Column " + i;
+      row.appendChild(th);
+    }
+    var tbody = table.createTBody();
+    licenseData.forEach(function(rowData) {
+      var row = tbody.insertRow();
+      rowData.forEach(function(cellData) {
+        var cell = row.insertCell();
+        cell.textContent = cellData;
+      });
+    });
+  }
+
+  renderTable();
+</script>
+
+</body>
+</html>

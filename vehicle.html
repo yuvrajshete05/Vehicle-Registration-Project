@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Information</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Vehicle</h2>
+
+<table id="vehicleTable">
+  <thead>
+    <tr>
+      <th>Vehicle ID</th>
+      <th>Registration ID</th>
+      <th>Vehicle Model</th>
+      <th>Year</th>
+      <th>Color</th>
+      <th>Manufacture ID</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>MH12AB1234</td>
+      <td>Maruti Swift</td>
+      <td>2018</td>
+      <td>Red</td>
+      <td>1001</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>MH20XY5678</td>
+      <td>Hyundai i20</td>
+      <td>2019</td>
+      <td>Blue</td>
+      <td>1002</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>MH04CD9012</td>
+      <td>Honda City</td>
+      <td>2020</td>
+      <td>Silver</td>
+      <td>1003</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>MH06EF3456</td>
+      <td>Toyota Innova</td>
+      <td>2017</td>
+      <td>White</td>
+      <td>1004</td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<br>
+<div class="button-container">
+  <button onclick="addVehicle()">Insert</button>
+  <button onclick="saveData()">Save</button>
+  <button onclick="deleteLastRow()">Delete</button>
+</div>
+
+<script>
+  let vehicleData = [
+    [1, "MH12AB1234", "Maruti Swift", 2018, "Red", 1001],
+    [2, "MH20XY5678", "Hyundai i20", 2019, "Blue", 1002],
+    [3, "MH04CD9012", "Honda City", 2020, "Silver", 1003],
+    [4, "MH06EF3456", "Toyota Innova", 2017, "White", 1004]
+  ];
+
+  function addVehicle() {
+    var table = document.getElementById("vehicleTable");
+    var newRow = table.insertRow(-1);
+    for (var i = 0; i < 6; i++) {
+      var newCell = newRow.insertCell(i);
+      var input = document.createElement("input");
+      input.type = "text";
+      input.placeholder = "Enter value";
+      newCell.appendChild(input);
+    }
+  }
+
+  function deleteLastRow() {
+    var table = document.getElementById("vehicleTable");
+    var rowCount = table.rows.length;
+    if (rowCount > 1) {
+      table.deleteRow(rowCount - 1);
+    }
+  }
+
+  function saveData() {
+    var table = document.getElementById("vehicleTable");
+    var rowCount = table.rows.length;
+    var newRow = [];
+    var lastRowCells = table.rows[rowCount - 1].cells;
+    for (var i = 0; i < lastRowCells.length; i++) {
+      newRow.push(lastRowCells[i].querySelector("input").value);
+    }
+    vehicleData.push(newRow);
+    renderTable();
+  }
+
+  function renderTable() {
+    var table = document.getElementById("vehicleTable");
+    table.innerHTML = "";
+    var thead = table.createTHead();
+    var row = thead.insertRow();
+    for (var i = 0; i < 6; i++) {
+      var th = document.createElement("th");
+      th.textContent = i == 0 ? "Vehicle ID" : "New Column " + i;
+      row.appendChild(th);
+    }
+    var tbody = table.createTBody();
+    vehicleData.forEach(function(rowData) {
+      var row = tbody.insertRow();
+      rowData.forEach(function(cellData) {
+        var cell = row.insertCell();
+        cell.textContent = cellData;
+      });
+    });
+  }
+
+  renderTable();
+</script>
+
+</body>
+</html>

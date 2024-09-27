@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insurance Information</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Insurance</h2>
+
+<table id="insuranceTable">
+  <thead>
+    <tr>
+      <th>Insurance Name</th>
+      <th>Insurance Type</th>
+      <th>Insurance ID</th>
+      <th>Insurance Amount</th>
+      <th>Duration</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Insurance data will be dynamically inserted here -->
+  </tbody>
+</table>
+<br>
+<br>
+<div class="button-container">
+  <button onclick="addInsurance()">Insert</button>
+  <button onclick="saveData()">Save</button>
+  <button onclick="deleteLastRow()">Delete</button>
+</div>
+
+<script>
+  let insuranceData = [
+    ['Life Insurance Company', 'Life', 1001, 500000.00, '5 years'],
+    ['Health Insurance Ltd', 'Health', 1002, 100000.00, '1 year'],
+    ['Auto Insurance Corp', 'Auto', 1003, 300000.00, '2 years'],
+    ['General Insurance Co.', 'General', 1004, 200000.00, '3 years']
+  ];
+
+  function addInsurance() {
+    var table = document.getElementById("insuranceTable");
+    var newRow = table.insertRow(-1);
+    for (var i = 0; i < 5; i++) {
+      var newCell = newRow.insertCell(i);
+      var input = document.createElement("input");
+      input.type = "text";
+      input.placeholder = "Enter value";
+      newCell.appendChild(input);
+    }
+  }
+
+  function deleteLastRow() {
+    var table = document.getElementById("insuranceTable");
+    var rowCount = table.rows.length;
+    if (rowCount > 1) {
+      table.deleteRow(rowCount - 1);
+    }
+  }
+
+  function saveData() {
+    var table = document.getElementById("insuranceTable");
+    var rowCount = table.rows.length;
+    var newRow = [];
+    var lastRowCells = table.rows[rowCount - 1].cells;
+    for (var i = 0; i < lastRowCells.length; i++) {
+      newRow.push(lastRowCells[i].querySelector("input").value);
+    }
+    insuranceData.push(newRow);
+    renderTable();
+  }
+
+  function renderTable() {
+    var table = document.getElementById("insuranceTable");
+    table.innerHTML = "";
+    var thead = table.createTHead();
+    var row = thead.insertRow();
+    for (var i = 0; i < 5; i++) {
+      var th = document.createElement("th");
+      th.textContent = i == 0 ? "Insurance Name" : "New Column " + i;
+      row.appendChild(th);
+    }
+    var tbody = table.createTBody();
+    insuranceData.forEach(function(rowData) {
+      var row = tbody.insertRow();
+      rowData.forEach(function(cellData) {
+        var cell = row.insertCell();
+        cell.textContent = cellData;
+      });
+    });
+  }
+
+  renderTable();
+</script>
+
+</body>
+</html>
